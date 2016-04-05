@@ -183,16 +183,16 @@ public class EasyPrinter {
 					
 					// set header position and font
 					vContent.newLineAtOffset(mBorderLeft, vPageHeight-mBorderTop-mHeaderFontSize);
-					vPositionY = vPageHeight-mBorderTop;
+					vPositionY = vPageHeight-mBorderTop-mHeaderFontSize;
 					vContent.setFont(mHeaderFont, mHeaderFontSize);
 					
 					// add header
 					for( String vString : vHeaderStrings ){
 						float vPositionX = getCenterXPosition(vString, mFont, mFontSize, vMaxTextWidth);
-						vContent.newLineAtOffset(vPositionX, -mHeaderFontSize);
-						vPositionY -= mHeaderFontSize;
+						vContent.newLineAtOffset(vPositionX, 0);
 						vContent.showText( vString );
-						vContent.newLineAtOffset(-vPositionX, 0);
+						vContent.newLineAtOffset(-vPositionX, -mHeaderFontSize);
+						vPositionY -= mHeaderFontSize;
 					}
 					
 					vLinesLeft = vMaxLines;
@@ -223,7 +223,7 @@ public class EasyPrinter {
 					
 					// add footer
 					for( String vString : vFooterStrings ){
-						float vPositionX = getCenterXPosition(vString, mFont, mFontSize, vMaxTextWidth);
+						float vPositionX = getCenterXPosition(vString, mFooterFont, mFooterFontSize, vMaxTextWidth);
 						vContent.newLineAtOffset(vPositionX, 0);
 						vContent.showText(vString);
 						vContent.newLineAtOffset(-vPositionX, -mFooterFontSize);
@@ -246,7 +246,7 @@ public class EasyPrinter {
 				return true;			
 			}
 			
-			vDocument.save("out.pdf");
+//			vDocument.save("out.pdf");
 			vDocument.close();
 			
 		} catch(Exception e){
@@ -438,6 +438,16 @@ public class EasyPrinter {
 	 */
 	public void setBorderLeft(int borderLeft) {
 		mBorderLeft = (borderLeft * 72.0f) / 25.4f;
+	}
+	
+	/**
+	 * Sets all borders to the same size.
+	 * @param border	Page borders in mm. Default: 20mm.
+	 */
+	public void setBorders(int border){
+		setBorderLeft(border);
+		setBoderBottom(border);
+		setBorderTop(border);
 	}
 
 	/**
